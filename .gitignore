@@ -1,0 +1,32 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+
+# production build
+build/
+
+# env files — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# database
+prisma/*.db
+prisma/*.db-journal
+
+# build artifacts
+tsconfig.tsbuildinfo
+
+# local claude settings
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+npm-debug.log*

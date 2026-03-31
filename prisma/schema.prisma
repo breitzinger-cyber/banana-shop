@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Role: USER | ADMIN
+// EventStatus: OPEN | CLOSED | RESOLVED | CANCELLED
+// BetStatus: ACTIVE | WON | LOST | REFUNDED
+// TransactionType: GRANT | PURCHASE | BET | PAYOUT | REFUND | DEPOSIT
+// DepositStatus: PENDING | APPROVED | REJECTED
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         String   @default("USER")
+  tokenBalance Float    @default(0)
+  createdAt    DateTime @default(now())
+
+  bets             Bet[]
+  transactions     TokenTransaction[]
+  events           Event[]
+  sentMessages     Message[]          @relation("SentMessages")
+  recvMessages     Message[]          @relation("ReceivedMessages")
+  comments         Comment[]
+  pushSubscriptions PushSubscription[]
+  badges           UserBadge[]
+  depositRequests  DepositRequest[]
+}
+
+model Event {
+  id                String    @id @default(cuid())
+  title             String
+  description       String
+  category          String    @default("General")
+  status            String    @default("OPEN")
+  createdAt         DateTime  @default(now())
+  closesAt          DateTime?
+  resolvedOutcomeId String?
+
+  createdById String
+  createdBy   User   @relation(fields: [createdById], references: [id])
+
+  outcomes Outcome[]
+  bets     Bet[]
+  comments Comment[]
+}
+
+model Outcome {
+  id              String @id @default(cuid())
+  eventId         String
+  label           String
+  baseProbability Float
+  totalStaked     Float  @default(0)
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  bets  Bet[]
+}
+
+model Bet {
+  id           String   @id @default(cuid())
+  userId       String
+  eventId      String
+  outcomeId    String
+  tokensStaked Float
+  lockedOdds   Float
+  payout       Float?
+  placedAt     DateTime @default(now())
+  status       String   @default("ACTIVE")
+
+  user    User    @relation(fields: [userId], references: [id])
+  event   Event   @relation(fields: [eventId], references: [id])
+  outcome Outcome @relation(fields: [outcomeId], references: [id])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  eventId   String
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id])
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserBadge {
+  id       String   @id @default(cuid())
+  userId   String
+  badge    String
+  earnedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badge])
+}
+
+model Message {
+  id         String    @id @default(cuid())
+  fromUserId String
+  toUserId   String
+  content    String
+  createdAt  DateTime  @default(now())
+  readAt     DateTime?
+
+  from User @relation("SentMessages", fields: [fromUserId], references: [id])
+  to   User @relation("ReceivedMessages", fields: [toUserId], references: [id])
+}
+
+model DepositRequest {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  amount    Float
+  note      String?
+  status    String   @default("PENDING")
+  adminNote String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TokenTransaction {
+  id          String   @id @default(cuid())
+  userId      String
+  amount      Float
+  type        String
+  referenceId String?
+  note        String?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
