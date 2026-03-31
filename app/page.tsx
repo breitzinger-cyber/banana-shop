@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/prisma";
 import EventCard from "@/components/event-card";
 import ActivityFeed from "@/components/activity-feed";

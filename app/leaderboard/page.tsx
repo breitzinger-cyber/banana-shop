@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getBadge } from "@/lib/badges";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function LeaderboardPage() {
   const users = await prisma.user.findMany({

@@ -3,6 +3,8 @@ import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import AdminDepositRequests from "@/components/admin-deposit-requests";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   const [events, users, recentBets] = await Promise.all([
     prisma.event.findMany({
