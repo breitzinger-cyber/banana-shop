@@ -21,6 +21,7 @@ model User {
   passwordHash String
   role         String   @default("USER")
   tokenBalance Float    @default(0)
+  hasOnboarded Boolean  @default(false)
   createdAt    DateTime @default(now())
 
   bets             Bet[]
