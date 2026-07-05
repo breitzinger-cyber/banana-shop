@@ -2,7 +2,10 @@ export const dynamic = "force-dynamic";
 
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import BetForm from "@/components/bet-form";
+import TipForm from "@/components/tip-form";
 import LiveEventDetail from "@/components/live-event-detail";
 import Comments from "@/components/comments";
 import OddsChart from "@/components/odds-chart";
@@ -30,6 +33,15 @@ export default async function EventPage({ params }: PageProps) {
   });
 
   if (!event) notFound();
+
+  // Current user's free Tippspiel prediction on this market (if any)
+  const session = await getServerSession(authOptions);
+  const userPrediction = session
+    ? await prisma.prediction.findUnique({
+        where: { userId_eventId: { userId: session.user.id, eventId: event.id } },
+        select: { outcomeId: true, status: true, pointsAwarded: true, oddsAtTip: true },
+      })
+    : null;
 
   const totalPool = event.outcomes.reduce((s, o) => s + o.totalStaked, 0);
   const totalBets = event.bets.length;
@@ -162,15 +174,33 @@ export default async function EventPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Sidebar — Bet form */}
+        {/* Sidebar — Bet form + free Tippspiel */}
         <div className="lg:col-span-1">
-          <div className="sticky top-20 bg-gray-900 border border-gray-800 rounded-xl p-5">
-            <h2 className="text-base font-semibold text-white mb-4">Place Bet</h2>
-            <BetForm
-              eventId={event.id}
-              outcomes={event.outcomes}
-              eventStatus={event.status}
-            />
+          <div className="sticky top-20 space-y-4">
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
+              <h2 className="text-base font-semibold text-white mb-4">Place Bet</h2>
+              <BetForm
+                eventId={event.id}
+                outcomes={event.outcomes}
+                eventStatus={event.status}
+              />
+            </div>
+
+            <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
+              <h2 className="text-base font-semibold text-white mb-1 flex items-center gap-2">
+                🎯 Free Tip
+                <span className="text-xs font-normal text-gray-500">points only</span>
+              </h2>
+              <div className="mt-3">
+                <TipForm
+                  eventId={event.id}
+                  outcomes={event.outcomes}
+                  eventStatus={event.status}
+                  resolvedOutcomeId={event.resolvedOutcomeId}
+                  initialPrediction={userPrediction}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

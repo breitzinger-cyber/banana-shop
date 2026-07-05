@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { calculatePayout } from "@/lib/odds";
+import { pointsForOdds } from "@/lib/tippspiel";
 import { awardWinBadges } from "@/lib/award-badges";
 import { sendPushToUser } from "@/lib/push";
 
@@ -26,7 +27,7 @@ export async function POST(
 
     const event = await prisma.event.findUnique({
       where: { id: params.id },
-      include: { outcomes: true, bets: true },
+      include: { outcomes: true, bets: true, predictions: true },
     });
 
     if (!event) {
@@ -124,6 +125,23 @@ export async function POST(
           await tx.bet.update({
             where: { id: bet.id },
             data: { status: "LOST", payout: 0 },
+          });
+        }
+      }
+
+      // ── Score free Tippspiel predictions ──────────────────────────────────
+      // No banana movement — just award odds-weighted points to correct tips.
+      for (const pred of event.predictions) {
+        if (pred.status !== "PENDING") continue;
+        if (pred.outcomeId === outcomeId) {
+          await tx.prediction.update({
+            where: { id: pred.id },
+            data: { status: "CORRECT", pointsAwarded: pointsForOdds(pred.oddsAtTip) },
+          });
+        } else {
+          await tx.prediction.update({
+            where: { id: pred.id },
+            data: { status: "WRONG", pointsAwarded: 0 },
           });
         }
       }

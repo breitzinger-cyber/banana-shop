@@ -12,6 +12,7 @@ datasource db {
 // EventStatus: PENDING | OPEN | CLOSED | RESOLVED | CANCELLED
 // BetStatus: ACTIVE | WON | LOST | REFUNDED
 // TransactionType: GRANT | PURCHASE | BET | PAYOUT | REFUND | RAKE
+// PredictionStatus: PENDING | CORRECT | WRONG
 
 model User {
   id           String   @id @default(cuid())
@@ -30,6 +31,7 @@ model User {
   comments         Comment[]
   pushSubscriptions PushSubscription[]
   badges           UserBadge[]
+  predictions      Prediction[]
 }
 
 model Event {
@@ -48,9 +50,10 @@ model Event {
   createdById String
   createdBy   User   @relation(fields: [createdById], references: [id])
 
-  outcomes Outcome[]
-  bets     Bet[]
-  comments Comment[]
+  outcomes    Outcome[]
+  bets        Bet[]
+  comments    Comment[]
+  predictions Prediction[]
 }
 
 model Outcome {
@@ -60,8 +63,9 @@ model Outcome {
   baseProbability Float
   totalStaked     Float  @default(0)
 
-  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  bets  Bet[]
+  event       Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  bets        Bet[]
+  predictions Prediction[]
 }
 
 model Bet {
@@ -135,4 +139,24 @@ model TokenTransaction {
   createdAt   DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])
+}
+
+// Free "Tippspiel" prediction — no banana stake, awards season points.
+// Points are odds-weighted: correct tip → round(oddsAtTip * 10).
+model Prediction {
+  id            String   @id @default(cuid())
+  userId        String
+  eventId       String
+  outcomeId     String
+  oddsAtTip     Float
+  pointsAwarded Int?
+  status        String   @default("PENDING")
+  season        String
+  createdAt     DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  event   Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  outcome Outcome @relation(fields: [outcomeId], references: [id])
+
+  @@unique([userId, eventId])
 }
