@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- banana body -->
+  <path d="M30 22 C 20 60 44 86 76 72" fill="none" stroke="#EAB308" stroke-width="19" stroke-linecap="round"/>
+  <!-- highlight -->
+  <path d="M31 24 C 23 58 44 80 71 69" fill="none" stroke="#FDE047" stroke-width="7" stroke-linecap="round"/>
+  <!-- tips -->
+  <circle cx="30" cy="22" r="5" fill="#6B3F17"/>
+  <circle cx="76" cy="72" r="5" fill="#6B3F17"/>
+</svg>
