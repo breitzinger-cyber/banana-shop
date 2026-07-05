@@ -4,7 +4,7 @@ import { Providers } from "./providers";
 import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
-  title: "I.C.E. — Inner Circle Exchange",
+  title: "Banana Shop",
   description: "Private prediction markets for your inner circle.",
 };
 

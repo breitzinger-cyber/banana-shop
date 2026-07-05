@@ -9,18 +9,23 @@ export default function Navbar() {
   const { data: session } = useSession();
   const pathname = usePathname();
   const [liveBalance, setLiveBalance] = useState<number | null>(null);
+  const [remainingToday, setRemainingToday] = useState<number | null>(null);
   const [unreadCount, setUnreadCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   useEffect(() => {
-    if (!session) { setLiveBalance(null); setUnreadCount(0); return; }
+    if (!session) { setLiveBalance(null); setRemainingToday(null); setUnreadCount(0); return; }
 
     async function fetchBalance() {
       try {
         const res = await fetch("/api/profile/balance");
-        if (res.ok) setLiveBalance((await res.json()).tokenBalance);
+        if (res.ok) {
+          const d = await res.json();
+          setLiveBalance(d.tokenBalance);
+          setRemainingToday(d.remainingToday);
+        }
       } catch {}
     }
     async function fetchUnread() {
@@ -49,11 +54,14 @@ export default function Navbar() {
       <NavLink href="/" active={pathname === "/"}>Markets</NavLink>
       <NavLink href="/leaderboard" active={pathname === "/leaderboard"}>Leaderboard</NavLink>
       {session && (
+        <NavLink href="/propose" active={pathname === "/propose"}>Propose</NavLink>
+      )}
+      {session && (
         <NavLink href="/messages" active={pathname === "/messages"}>
           <span className="relative inline-flex items-center">
             Messages
             {unreadCount > 0 && (
-              <span className="ml-1.5 text-xs bg-cyan-500 text-gray-950 font-bold px-1.5 py-0.5 rounded-full leading-none">
+              <span className="ml-1.5 text-xs bg-yellow-400 text-gray-950 font-bold px-1.5 py-0.5 rounded-full leading-none">
                 {unreadCount}
               </span>
             )}
@@ -72,11 +80,8 @@ export default function Navbar() {
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           {/* Brand */}
           <Link href="/" className="flex items-center gap-2 group shrink-0">
-            <span className="text-xl font-black text-cyan-400 tracking-tight group-hover:text-cyan-300 transition-colors">
-              I.C.E.
-            </span>
-            <span className="hidden sm:block text-xs text-gray-500 font-medium leading-tight">
-              Inner Circle<br />Exchange
+            <span className="text-xl font-black text-yellow-400 tracking-tight group-hover:text-yellow-300 transition-colors">
+              Banana Shop
             </span>
           </Link>
 
@@ -90,9 +95,16 @@ export default function Navbar() {
                 <Link
                   href="/profile"
                   className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded-full transition-colors"
+                  title={remainingToday !== null ? `${remainingToday.toFixed(1)} tokens remaining today` : undefined}
                 >
-                  <span className="text-cyan-400 text-sm font-bold">{displayBalance}</span>
+                  <span className="text-yellow-400 text-sm font-bold">{displayBalance}</span>
                   <span className="text-gray-400 text-xs">T</span>
+                  {remainingToday !== null && remainingToday < 2 && remainingToday > 0 && (
+                    <span className="text-xs text-orange-400 font-medium">{remainingToday.toFixed(1)} left</span>
+                  )}
+                  {remainingToday === 0 && (
+                    <span className="text-xs text-red-400 font-medium">limit</span>
+                  )}
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: "/login" })}
@@ -104,13 +116,13 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="hidden md:block px-4 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-semibold rounded-full transition-colors"
+                className="hidden md:block px-4 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-gray-950 text-sm font-semibold rounded-full transition-colors"
               >
                 Sign in
               </Link>
             )}
 
-            {/* Hamburger — mobile only */}
+            {/* Hamburger */}
             <button
               onClick={() => setMenuOpen((o) => !o)}
               className="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-gray-800 transition-colors"
@@ -142,7 +154,7 @@ export default function Navbar() {
                     className="flex items-center gap-2 text-sm text-gray-300"
                     onClick={() => setMenuOpen(false)}
                   >
-                    <span className="text-cyan-400 font-bold">{displayBalance}</span>
+                    <span className="text-yellow-400 font-bold">{displayBalance}</span>
                     <span className="text-gray-500">tokens</span>
                   </Link>
                   <button
@@ -155,7 +167,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   href="/login"
-                  className="w-full text-center py-2.5 bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-semibold rounded-lg transition-colors"
+                  className="w-full text-center py-2.5 bg-yellow-400 hover:bg-yellow-300 text-gray-950 font-semibold rounded-lg transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >
                   Sign in

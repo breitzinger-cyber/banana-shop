@@ -90,7 +90,7 @@ export default function MessagesPage() {
               <div
                 className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm ${
                   isMe
-                    ? "bg-cyan-600 text-white rounded-br-sm"
+                    ? "bg-yellow-500 text-gray-950 rounded-br-sm"
                     : "bg-gray-800 text-gray-100 rounded-bl-sm"
                 }`}
               >
@@ -102,7 +102,7 @@ export default function MessagesPage() {
                 <p className="leading-snug">{msg.content}</p>
                 <div
                   className={`text-xs mt-1 ${
-                    isMe ? "text-cyan-200" : "text-gray-500"
+                    isMe ? "text-yellow-900" : "text-gray-500"
                   }`}
                 >
                   {formatDistanceToNow(new Date(msg.createdAt), {
@@ -123,12 +123,12 @@ export default function MessagesPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Write a message…"
-          className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+          className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-colors"
         />
         <button
           type="submit"
           disabled={loading || !input.trim()}
-          className="px-5 py-3 bg-cyan-500 hover:bg-cyan-400 disabled:bg-gray-700 disabled:text-gray-500 text-gray-950 font-bold rounded-xl transition-colors"
+          className="px-5 py-3 bg-yellow-400 hover:bg-yellow-300 disabled:bg-gray-700 disabled:text-gray-500 text-gray-950 font-bold rounded-xl transition-colors"
         >
           Send
         </button>

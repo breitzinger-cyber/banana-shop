@@ -38,17 +38,15 @@ export default function EventCard({ event }: EventCardProps) {
   const closesAt = event.closesAt ? new Date(event.closesAt) : null;
   const expired = closesAt ? isPast(closesAt) : false;
 
-  // Leading outcome
   const leading = odds.reduce((a, b) => (a.probability > b.probability ? a : b));
 
   return (
     <Link href={`/event/${event.id}`}>
       <div className="bg-gray-900 border border-gray-800 hover:border-gray-600 rounded-xl p-5 transition-all group cursor-pointer">
-        {/* Header */}
         <div className="flex items-start justify-between gap-3 mb-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-xs px-2 py-0.5 bg-gray-800 text-gray-400 rounded-full">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+              <span className="text-xs px-2 py-0.5 bg-gray-800 text-gray-400 rounded-full shrink-0">
                 {event.category}
               </span>
               {closesAt && !expired && (
@@ -60,13 +58,13 @@ export default function EventCard({ event }: EventCardProps) {
                 <span className="text-xs text-gray-500">Betting closed</span>
               )}
             </div>
-            <h3 className="text-white font-semibold group-hover:text-cyan-300 transition-colors leading-snug">
+            <h3 className="text-white font-semibold group-hover:text-yellow-300 transition-colors leading-snug">
               {event.title}
             </h3>
           </div>
           <div className="text-right shrink-0">
-            <div className="text-sm font-bold text-cyan-400">
-              {totalPool.toFixed(1)}
+            <div className="text-sm font-bold text-yellow-400">
+              €{totalPool.toFixed(0)}
             </div>
             <div className="text-xs text-gray-500">{totalBets} bets</div>
           </div>
@@ -77,8 +75,8 @@ export default function EventCard({ event }: EventCardProps) {
           {odds.map((o, i) => (
             <div
               key={o.id}
-              className={`prob-bar ${OUTCOME_COLORS[i % OUTCOME_COLORS.length]} ${
-                o.id === leading.id ? "opacity-100" : "opacity-60"
+              className={`${OUTCOME_COLORS[i % OUTCOME_COLORS.length]} ${
+                o.id === leading.id ? "opacity-100" : "opacity-50"
               }`}
               style={{ width: `${o.probability * 100}%` }}
             />
@@ -98,14 +96,8 @@ export default function EventCard({ event }: EventCardProps) {
                 }`}
               >
                 <div className="flex items-center gap-2 min-w-0">
-                  <div
-                    className={`w-2 h-2 rounded-full shrink-0 ${
-                      OUTCOME_COLORS[i % OUTCOME_COLORS.length]
-                    }`}
-                  />
-                  <span className="text-sm text-gray-300 truncate">
-                    {outcome.label}
-                  </span>
+                  <div className={`w-2 h-2 rounded-full shrink-0 ${OUTCOME_COLORS[i % OUTCOME_COLORS.length]}`} />
+                  <span className="text-sm text-gray-300 truncate">{outcome.label}</span>
                 </div>
                 <div className="text-right shrink-0 ml-2">
                   <span className={`text-sm font-bold ${isLeading ? "text-green-400" : "text-gray-300"}`}>

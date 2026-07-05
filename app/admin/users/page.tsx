@@ -102,7 +102,7 @@ export default function AdminUsersPage() {
                 <span
                   className={`text-xs px-1.5 py-0.5 rounded-full ${
                     user.role === "ADMIN"
-                      ? "text-cyan-400 bg-cyan-950/50 border border-cyan-800"
+                      ? "text-yellow-400 bg-yellow-950/50 border border-yellow-800"
                       : "text-gray-400 bg-gray-800"
                   }`}
                 >
@@ -110,7 +110,7 @@ export default function AdminUsersPage() {
                 </span>
               </div>
               <div className="col-span-2 text-right">
-                <span className="text-cyan-400 font-bold">{user.tokenBalance.toFixed(1)}</span>
+                <span className="text-yellow-400 font-bold">{user.tokenBalance.toFixed(1)}</span>
                 <span className="text-gray-500 text-xs ml-1">tokens</span>
               </div>
               <div className="col-span-1 text-right text-sm text-gray-400">
@@ -121,7 +121,7 @@ export default function AdminUsersPage() {
                   onClick={() =>
                     setGrantTarget(grantTarget === user.id ? null : user.id)
                   }
-                  className="text-xs px-2.5 py-1.5 bg-cyan-900/50 hover:bg-cyan-800/50 text-cyan-400 rounded-lg transition-colors border border-cyan-800/50"
+                  className="text-xs px-2.5 py-1.5 bg-yellow-900/50 hover:bg-yellow-800/50 text-yellow-400 rounded-lg transition-colors border border-yellow-800/50"
                 >
                   Grant tokens
                 </button>
@@ -141,7 +141,7 @@ export default function AdminUsersPage() {
                       value={grantAmount}
                       onChange={(e) => setGrantAmount(e.target.value)}
                       placeholder="e.g. 10"
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-cyan-500 transition-colors"
+                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-yellow-400 transition-colors"
                     />
                   </div>
                   <div className="flex-1">
@@ -153,13 +153,13 @@ export default function AdminUsersPage() {
                       value={grantNote}
                       onChange={(e) => setGrantNote(e.target.value)}
                       placeholder="Welcome bonus, etc."
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-cyan-500 transition-colors"
+                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-yellow-400 transition-colors"
                     />
                   </div>
                   <button
                     onClick={() => handleGrant(user.id)}
                     disabled={grantLoading}
-                    className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 disabled:bg-gray-700 text-gray-950 font-semibold rounded-lg text-sm transition-colors"
+                    className="px-4 py-2 bg-yellow-400 hover:bg-yellow-300 disabled:bg-gray-700 text-gray-950 font-semibold rounded-lg text-sm transition-colors"
                   >
                     {grantLoading ? "…" : "Grant"}
                   </button>

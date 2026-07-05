@@ -7,8 +7,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Link from "next/link";
 
-export const revalidate = 30;
-
 export default async function HomePage({
   searchParams,
 }: {
@@ -36,7 +34,6 @@ export default async function HomePage({
     },
   });
 
-  // Sort by pool size
   const sorted = [...events].sort((a, b) => {
     const pA = a.outcomes.reduce((s, o) => s + o.totalStaked, 0);
     const pB = b.outcomes.reduce((s, o) => s + o.totalStaked, 0);
@@ -55,21 +52,31 @@ export default async function HomePage({
         {/* Main column */}
         <div className="flex-1 min-w-0">
           {/* Header */}
-          <div className="mb-6 flex items-end justify-between">
+          <div className="mb-6 flex items-end justify-between gap-3">
             <div>
               <h1 className="text-2xl font-bold text-white">Live Markets</h1>
               <p className="text-gray-400 mt-1 text-sm">
                 {events.length} open market{events.length !== 1 ? "s" : ""}
               </p>
             </div>
-            {session?.user.role === "ADMIN" && (
-              <Link
-                href="/admin/events/new"
-                className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-semibold rounded-lg transition-colors"
-              >
-                + New market
-              </Link>
-            )}
+            <div className="flex items-center gap-2 shrink-0">
+              {session && (
+                <Link
+                  href="/propose"
+                  className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  + Suggest a bet
+                </Link>
+              )}
+              {session?.user.role === "ADMIN" && (
+                <Link
+                  href="/admin/events/new"
+                  className="px-4 py-2 bg-yellow-400 hover:bg-yellow-300 text-gray-950 text-sm font-semibold rounded-lg transition-colors"
+                >
+                  + New market
+                </Link>
+              )}
+            </div>
           </div>
 
           {/* Category filter */}
@@ -81,7 +88,7 @@ export default async function HomePage({
                   href={cat === "All" ? "/" : `/?category=${cat}`}
                   className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                     selectedCategory === cat
-                      ? "bg-cyan-500 text-gray-950"
+                      ? "bg-yellow-400 text-gray-950"
                       : "bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700"
                   }`}
                 >
@@ -94,13 +101,23 @@ export default async function HomePage({
           {/* Events */}
           {filtered.length === 0 ? (
             <div className="text-center py-20 text-gray-500">
-              <div className="text-4xl mb-4">🧊</div>
+              <div className="text-4xl mb-4">🍌</div>
               <p className="text-xl font-medium text-gray-400">No open markets yet.</p>
               <p className="mt-2 text-sm">
-                {session?.user.role === "ADMIN"
-                  ? "Create the first market above!"
-                  : "Ask an admin to open some markets."}
+                {session
+                  ? session.user.role === "ADMIN"
+                    ? "Create the first market above!"
+                    : "Suggest one or ask an admin to open some markets."
+                  : "Sign in to participate."}
               </p>
+              {session && session.user.role !== "ADMIN" && (
+                <Link
+                  href="/propose"
+                  className="mt-4 inline-block px-5 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-gray-950 font-semibold rounded-lg transition-colors"
+                >
+                  Suggest a bet
+                </Link>
+              )}
             </div>
           ) : (
             <div className="space-y-4">
@@ -111,7 +128,7 @@ export default async function HomePage({
           )}
         </div>
 
-        {/* Sidebar — activity feed */}
+        {/* Sidebar */}
         <div className="hidden lg:block w-72 shrink-0">
           <div className="sticky top-20">
             <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">

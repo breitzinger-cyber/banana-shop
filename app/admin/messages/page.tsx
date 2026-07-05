@@ -116,7 +116,7 @@ export default function AdminMessagesPage() {
                 <div className="flex items-center justify-between">
                   <span className="font-medium text-sm">{t.userName}</span>
                   {t.unread > 0 && (
-                    <span className="text-xs bg-cyan-500 text-gray-950 font-bold px-1.5 py-0.5 rounded-full">
+                    <span className="text-xs bg-yellow-400 text-gray-950 font-bold px-1.5 py-0.5 rounded-full">
                       {t.unread}
                     </span>
                   )}
@@ -147,12 +147,12 @@ export default function AdminMessagesPage() {
                         <div
                           className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm ${
                             isMe
-                              ? "bg-cyan-600 text-white rounded-br-sm"
+                              ? "bg-yellow-500 text-gray-950 rounded-br-sm"
                               : "bg-gray-800 text-gray-100 rounded-bl-sm"
                           }`}
                         >
                           <p className="leading-snug">{msg.content}</p>
-                          <div className={`text-xs mt-1 ${isMe ? "text-cyan-200" : "text-gray-500"}`}>
+                          <div className={`text-xs mt-1 ${isMe ? "text-yellow-900" : "text-gray-500"}`}>
                             {formatDistanceToNow(new Date(msg.createdAt), { addSuffix: true })}
                           </div>
                         </div>
@@ -168,12 +168,12 @@ export default function AdminMessagesPage() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder={`Reply to ${activeThread.userName}…`}
-                    className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 text-sm focus:border-cyan-500 transition-colors"
+                    className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 text-sm focus:border-yellow-400 transition-colors"
                   />
                   <button
                     type="submit"
                     disabled={loading || !input.trim()}
-                    className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 disabled:bg-gray-700 disabled:text-gray-500 text-gray-950 font-bold rounded-lg text-sm transition-colors"
+                    className="px-4 py-2 bg-yellow-400 hover:bg-yellow-300 disabled:bg-gray-700 disabled:text-gray-500 text-gray-950 font-bold rounded-lg text-sm transition-colors"
                   >
                     Send
                   </button>

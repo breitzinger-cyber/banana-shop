@@ -6,9 +6,13 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Seeding database...");
 
-  // Clean slate
+  // Clean slate — order matters for FK constraints on Postgres
   await prisma.tokenTransaction.deleteMany();
   await prisma.bet.deleteMany();
+  await prisma.comment.deleteMany();
+  await prisma.message.deleteMany();
+  await prisma.userBadge.deleteMany();
+  await prisma.pushSubscription.deleteMany();
   await prisma.outcome.deleteMany();
   await prisma.event.deleteMany();
   await prisma.user.deleteMany();

@@ -50,7 +50,7 @@ export default function RegisterPage() {
       toast.error("Registered but sign-in failed. Please sign in manually.");
       router.push("/login");
     } else {
-      toast.success("Welcome to I.C.E.!");
+      toast.success("Welcome to Banana Shop!");
       router.push("/");
       router.refresh();
     }
@@ -62,11 +62,11 @@ export default function RegisterPage() {
       {/* Logo */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 mb-3">
-          <span className="text-3xl font-black text-cyan-400 tracking-tight">
-            I.C.E.
+          <span className="text-3xl font-black text-yellow-400 tracking-tight">
+            Banana Shop
           </span>
         </div>
-        <p className="text-gray-400 text-sm">Inner Circle Exchange</p>
+        <p className="text-gray-400 text-sm">Private prediction markets</p>
       </div>
 
       <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
@@ -83,7 +83,7 @@ export default function RegisterPage() {
               onChange={(e) => setName(e.target.value)}
               required
               placeholder="Your name"
-              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-colors"
             />
           </div>
 
@@ -98,7 +98,7 @@ export default function RegisterPage() {
               required
               autoComplete="email"
               placeholder="you@example.com"
-              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-colors"
             />
           </div>
 
@@ -114,7 +114,7 @@ export default function RegisterPage() {
               minLength={8}
               autoComplete="new-password"
               placeholder="Min 8 characters"
-              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-colors"
             />
           </div>
 
@@ -129,14 +129,14 @@ export default function RegisterPage() {
               value={inviteCode}
               onChange={(e) => setInviteCode(e.target.value)}
               placeholder="Ask an admin for the code"
-              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-colors"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 bg-cyan-500 hover:bg-cyan-400 disabled:bg-cyan-900 disabled:text-cyan-700 text-gray-950 font-semibold rounded-lg transition-colors"
+            className="w-full py-2.5 bg-yellow-400 hover:bg-yellow-400 disabled:bg-yellow-900 disabled:text-yellow-700 text-gray-950 font-semibold rounded-lg transition-colors"
           >
             {loading ? "Creating account…" : "Create account"}
           </button>
@@ -144,7 +144,7 @@ export default function RegisterPage() {
 
         <p className="mt-5 text-center text-sm text-gray-500">
           Already have an account?{" "}
-          <Link href="/login" className="text-cyan-400 hover:text-cyan-300">
+          <Link href="/login" className="text-yellow-400 hover:text-yellow-300">
             Sign in
           </Link>
         </p>

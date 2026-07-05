@@ -8,8 +8,14 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status") || "OPEN";
 
+    // PENDING events are never exposed via this public endpoint
+    const where =
+      status === "ALL"
+        ? { status: { not: "PENDING" } }
+        : { status };
+
     const events = await prisma.event.findMany({
-      where: status === "ALL" ? {} : { status },
+      where,
       include: {
         outcomes: true,
         _count: { select: { bets: true } },

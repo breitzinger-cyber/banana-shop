@@ -3,15 +3,15 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // Role: USER | ADMIN
-// EventStatus: OPEN | CLOSED | RESOLVED | CANCELLED
+// EventStatus: PENDING | OPEN | CLOSED | RESOLVED | CANCELLED
 // BetStatus: ACTIVE | WON | LOST | REFUNDED
-// TransactionType: GRANT | PURCHASE | BET | PAYOUT | REFUND | DEPOSIT
-// DepositStatus: PENDING | APPROVED | REJECTED
+// TransactionType: GRANT | PURCHASE | BET | PAYOUT | REFUND | RAKE
 
 model User {
   id           String   @id @default(cuid())
@@ -30,7 +30,6 @@ model User {
   comments         Comment[]
   pushSubscriptions PushSubscription[]
   badges           UserBadge[]
-  depositRequests  DepositRequest[]
 }
 
 model Event {
@@ -42,6 +41,9 @@ model Event {
   createdAt         DateTime  @default(now())
   closesAt          DateTime?
   resolvedOutcomeId String?
+
+  proposalNote    String?
+  adminReviewNote String?
 
   createdById String
   createdBy   User   @relation(fields: [createdById], references: [id])
@@ -121,18 +123,6 @@ model Message {
 
   from User @relation("SentMessages", fields: [fromUserId], references: [id])
   to   User @relation("ReceivedMessages", fields: [toUserId], references: [id])
-}
-
-model DepositRequest {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  amount    Float
-  note      String?
-  status    String   @default("PENDING")
-  adminNote String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model TokenTransaction {

@@ -4,34 +4,30 @@ export interface TokenPackage {
   tokens: number;
   priceEurCents: number;
   description: string;
-  // Set these in the Stripe dashboard and add to env
-  stripePriceId?: string;
 }
 
+/** 1 token = €1 exactly */
 export const TOKEN_PACKAGES: TokenPackage[] = [
   {
-    id: "starter",
-    name: "Starter",
+    id: "five",
+    name: "5 Tokens",
+    tokens: 5,
+    priceEurCents: 500,
+    description: "5 Tokens · €5",
+  },
+  {
+    id: "ten",
+    name: "10 Tokens",
     tokens: 10,
-    priceEurCents: 200,
-    description: "10 Tokens · ~€2",
-    stripePriceId: process.env.STRIPE_PRICE_STARTER,
-  },
-  {
-    id: "pack",
-    name: "Pack",
-    tokens: 60,
     priceEurCents: 1000,
-    description: "60 Tokens · ~€10",
-    stripePriceId: process.env.STRIPE_PRICE_PACK,
+    description: "10 Tokens · €10",
   },
   {
-    id: "bag",
-    name: "Bag",
-    tokens: 150,
-    priceEurCents: 2000,
-    description: "150 Tokens · ~€20",
-    stripePriceId: process.env.STRIPE_PRICE_BAG,
+    id: "twentyfive",
+    name: "25 Tokens",
+    tokens: 25,
+    priceEurCents: 2500,
+    description: "25 Tokens · €25",
   },
 ];
 

@@ -65,7 +65,7 @@ export default function Comments({ eventId }: { eventId: string }) {
                 <div className="flex items-center gap-2 mb-0.5">
                   <span className="text-sm font-medium text-white">{c.user.name}</span>
                   {c.user.role === "ADMIN" && (
-                    <span className="text-xs px-1.5 py-0.5 bg-cyan-900/50 text-cyan-400 border border-cyan-800/50 rounded-full">
+                    <span className="text-xs px-1.5 py-0.5 bg-yellow-900/50 text-yellow-400 border border-yellow-800/50 rounded-full">
                       Admin
                     </span>
                   )}
@@ -89,19 +89,19 @@ export default function Comments({ eventId }: { eventId: string }) {
             onChange={(e) => setInput(e.target.value)}
             maxLength={500}
             placeholder="Add a comment…"
-            className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 text-sm focus:border-cyan-500 transition-colors"
+            className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 text-sm focus:border-yellow-400 transition-colors"
           />
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 disabled:bg-gray-700 disabled:text-gray-500 text-gray-950 font-semibold rounded-lg text-sm transition-colors"
+            className="px-4 py-2 bg-yellow-400 hover:bg-yellow-300 disabled:bg-gray-700 disabled:text-gray-500 text-gray-950 font-semibold rounded-lg text-sm transition-colors"
           >
             Post
           </button>
         </form>
       ) : (
         <p className="text-xs text-gray-600 pt-2 border-t border-gray-800">
-          <a href="/login" className="text-cyan-400 hover:underline">Sign in</a> to comment.
+          <a href="/login" className="text-yellow-400 hover:underline">Sign in</a> to comment.
         </p>
       )}
     </div>

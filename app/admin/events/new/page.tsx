@@ -127,7 +127,7 @@ export default function NewEventPage() {
               required
               maxLength={200}
               placeholder="Will X happen before Y?"
-              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-colors"
             />
           </div>
 
@@ -141,7 +141,7 @@ export default function NewEventPage() {
               required
               rows={3}
               placeholder="Provide context for bettors…"
-              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors resize-none"
+              className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-colors resize-none"
             />
           </div>
 
@@ -153,7 +153,7 @@ export default function NewEventPage() {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+                className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-colors"
               >
                 {CATEGORIES.map((c) => (
                   <option key={c} value={c}>
@@ -172,7 +172,7 @@ export default function NewEventPage() {
                 type="datetime-local"
                 value={closesAt}
                 onChange={(e) => setClosesAt(e.target.value)}
-                className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+                className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-colors"
               />
             </div>
           </div>
@@ -208,7 +208,7 @@ export default function NewEventPage() {
                     value={o.label}
                     onChange={(e) => updateOutcome(idx, "label", e.target.value)}
                     placeholder={`Outcome ${idx + 1}`}
-                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-cyan-500 transition-colors text-sm"
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-yellow-400 transition-colors text-sm"
                   />
                 </div>
                 <div className="w-28 flex items-center gap-1">
@@ -221,7 +221,7 @@ export default function NewEventPage() {
                     min="0"
                     max="100"
                     step="0.1"
-                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-cyan-500 transition-colors text-right"
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:border-yellow-400 transition-colors text-right"
                   />
                   <span className="text-gray-500 text-sm">%</span>
                 </div>
@@ -239,7 +239,7 @@ export default function NewEventPage() {
           <button
             type="button"
             onClick={addOutcome}
-            className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+            className="text-sm text-yellow-400 hover:text-yellow-300 transition-colors"
           >
             + Add outcome
           </button>
@@ -266,7 +266,7 @@ export default function NewEventPage() {
         <button
           type="submit"
           disabled={loading || !probValid}
-          className="w-full py-3 bg-cyan-500 hover:bg-cyan-400 disabled:bg-gray-700 disabled:text-gray-500 text-gray-950 font-bold rounded-xl transition-colors"
+          className="w-full py-3 bg-yellow-400 hover:bg-yellow-300 disabled:bg-gray-700 disabled:text-gray-500 text-gray-950 font-bold rounded-xl transition-colors"
         >
           {loading ? "Creating…" : "Create Market"}
         </button>

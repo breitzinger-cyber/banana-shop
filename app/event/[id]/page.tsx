@@ -94,7 +94,7 @@ export default async function EventPage({ params }: PageProps) {
             {/* Stats */}
             <div className="mt-5 flex gap-6 text-sm">
               <div>
-                <div className="text-2xl font-bold text-cyan-400">{totalPool.toFixed(1)}</div>
+                <div className="text-2xl font-bold text-yellow-400">{totalPool.toFixed(1)}</div>
                 <div className="text-gray-500 text-xs mt-0.5">tokens pooled</div>
               </div>
               <div>
@@ -146,7 +146,7 @@ export default async function EventPage({ params }: PageProps) {
                         {bet.user.name.split(" ")[0]}
                       </span>
                       <span className="text-gray-500"> bet </span>
-                      <span className="text-cyan-400 font-medium">
+                      <span className="text-yellow-400 font-medium">
                         {bet.tokensStaked.toFixed(1)} tokens
                       </span>
                       <span className="text-gray-500"> on </span>

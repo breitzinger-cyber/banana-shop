@@ -78,7 +78,7 @@ export default function PushSubscribe() {
       ) : status !== "denied" ? (
         <button
           onClick={subscribe}
-          className="text-xs px-3 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-semibold rounded-lg transition-colors"
+          className="text-xs px-3 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-gray-950 font-semibold rounded-lg transition-colors"
         >
           Enable
         </button>

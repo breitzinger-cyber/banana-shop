@@ -176,7 +176,7 @@ export default function AdminEventPage() {
             </p>
           </div>
           <div className="text-right shrink-0">
-            <div className="text-2xl font-bold text-cyan-400">{totalPool.toFixed(1)}</div>
+            <div className="text-2xl font-bold text-yellow-400">{totalPool.toFixed(1)}</div>
             <div className="text-xs text-gray-500">tokens pooled</div>
             <div className="text-lg font-bold text-white mt-1">{event.bets.length}</div>
             <div className="text-xs text-gray-500">total bets</div>
@@ -223,7 +223,7 @@ export default function AdminEventPage() {
                       <tr key={bet.id} className="border-b border-gray-800/40 last:border-0">
                         <td className="py-2 text-gray-300">{bet.user.name}</td>
                         <td className="py-2 text-white">{bet.outcome.label}</td>
-                        <td className="py-2 text-right text-cyan-400">
+                        <td className="py-2 text-right text-yellow-400">
                           {bet.tokensStaked.toFixed(1)}
                         </td>
                         <td className="py-2 text-right text-gray-400">
@@ -298,7 +298,7 @@ export default function AdminEventPage() {
                     onClick={() => setSelectedWinner(o.id)}
                     className={`w-full text-left px-3 py-2.5 rounded-lg border text-sm transition-all ${
                       selectedWinner === o.id
-                        ? "border-cyan-500 bg-cyan-950/30 text-cyan-300"
+                        ? "border-yellow-400 bg-yellow-950/20 text-yellow-300"
                         : "border-gray-700 bg-gray-800/50 text-gray-300 hover:border-gray-600"
                     }`}
                   >

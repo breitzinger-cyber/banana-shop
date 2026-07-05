@@ -18,7 +18,7 @@ export default async function AdminLayout({
     <div className="max-w-6xl mx-auto px-4 py-8">
       {/* Admin nav */}
       <div className="mb-6 flex items-center gap-2 flex-wrap">
-        <span className="text-xs px-2 py-0.5 bg-cyan-900/50 text-cyan-400 border border-cyan-800 rounded-full font-medium">
+        <span className="text-xs px-2 py-0.5 bg-yellow-900/50 text-yellow-400 border border-yellow-800 rounded-full font-medium">
           Admin
         </span>
         <AdminNavLink href="/admin">Dashboard</AdminNavLink>

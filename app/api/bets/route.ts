@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getLockedOdds, calculatePayout } from "@/lib/odds";
 import { RAKE_PERCENT } from "@/lib/config";
-import { MAX_BET_TOKENS } from "@/lib/currency";
+import { MAX_BET_TOKENS, DAILY_SPEND_LIMIT } from "@/lib/currency";
 import { awardBetBadges } from "@/lib/award-badges";
 
 export async function POST(req: NextRequest) {
@@ -22,15 +22,41 @@ export async function POST(req: NextRequest) {
 
     if (tokensStaked > MAX_BET_TOKENS) {
       return NextResponse.json(
-        { error: `Max bet is ${MAX_BET_TOKENS} tokens (≈ €50) per market.` },
+        { error: `Max bet is ${MAX_BET_TOKENS} tokens (€${MAX_BET_TOKENS}) per market.` },
         { status: 400 }
       );
     }
 
     const userId = session.user.id;
 
+    // Check daily spend limit
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    const todaySpend = await prisma.tokenTransaction.aggregate({
+      where: {
+        userId,
+        type: "BET",
+        createdAt: { gte: todayStart },
+      },
+      _sum: { amount: true },
+    });
+
+    // BET transactions are stored as negative amounts
+    const spentToday = Math.abs(todaySpend._sum.amount ?? 0);
+
+    if (spentToday + tokensStaked > DAILY_SPEND_LIMIT) {
+      const remaining = Math.max(0, DAILY_SPEND_LIMIT - spentToday);
+      return NextResponse.json(
+        {
+          error: `Daily spend limit reached. You can bet ${remaining.toFixed(1)} more token${remaining !== 1 ? "s" : ""} today.`,
+          remainingToday: remaining,
+        },
+        { status: 400 }
+      );
+    }
+
     const result = await prisma.$transaction(async (tx) => {
-      // Load user with fresh balance
       const user = await tx.user.findUnique({ where: { id: userId } });
       if (!user) throw new Error("USER_NOT_FOUND");
 
@@ -38,7 +64,6 @@ export async function POST(req: NextRequest) {
         throw new Error("INSUFFICIENT_BALANCE");
       }
 
-      // Load event with outcomes
       const event = await tx.event.findUnique({
         where: { id: eventId },
         include: { outcomes: true },
@@ -50,29 +75,20 @@ export async function POST(req: NextRequest) {
       const outcome = event.outcomes.find((o) => o.id === outcomeId);
       if (!outcome) throw new Error("OUTCOME_NOT_FOUND");
 
-      // ── Rake calculation ──────────────────────────────────────────────────
-      // A small percentage of every bet goes to the admin account to cover
-      // server costs (~3 tokens/month at normal group activity).
       const rake = Math.round(tokensStaked * RAKE_PERCENT * 100) / 100;
-      // The effective stake is what enters the pool and drives payouts.
       const effectiveStake = Math.round((tokensStaked - rake) * 100) / 100;
-
-      // Calculate locked odds based on current pool state (before this bet)
       const lockedOdds = getLockedOdds(event.outcomes, outcomeId);
 
-      // Deduct full amount from bettor
       await tx.user.update({
         where: { id: userId },
         data: { tokenBalance: { decrement: tokensStaked } },
       });
 
-      // Only the effective stake enters the pool
       await tx.outcome.update({
         where: { id: outcomeId },
         data: { totalStaked: { increment: effectiveStake } },
       });
 
-      // Create bet record — tokensStaked stores the effective stake (payout basis)
       const bet = await tx.bet.create({
         data: {
           userId,
@@ -84,7 +100,6 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      // Bettor's transaction (full amount deducted)
       await tx.tokenTransaction.create({
         data: {
           userId,
@@ -95,11 +110,10 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      // ── Credit rake to admin ──────────────────────────────────────────────
       if (rake > 0) {
         const admin = await tx.user.findFirst({
           where: { role: "ADMIN" },
-          orderBy: { createdAt: "asc" }, // oldest admin = primary
+          orderBy: { createdAt: "asc" },
         });
 
         if (admin && admin.id !== userId) {
@@ -120,7 +134,6 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      // Award badges (non-blocking — errors silently ignored)
       const newBadges = await awardBetBadges(tx, userId, tokensStaked).catch(() => []);
 
       return {
@@ -130,6 +143,8 @@ export async function POST(req: NextRequest) {
         effectiveStake,
         projectedPayout: calculatePayout(effectiveStake, lockedOdds),
         newBalance: user.tokenBalance - tokensStaked,
+        spentToday: spentToday + tokensStaked,
+        remainingToday: Math.max(0, DAILY_SPEND_LIMIT - spentToday - tokensStaked),
         newBadges,
       };
     });

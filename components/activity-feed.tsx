@@ -31,7 +31,7 @@ export default function ActivityFeed({ bets }: { bets: ActivityBet[] }) {
           <div className="text-sm">
             <span className="font-medium text-white">{bet.user.name.split(" ")[0]}</span>
             <span className="text-gray-500"> bet </span>
-            <span className="text-cyan-400 font-medium">{bet.tokensStaked.toFixed(1)} T</span>
+            <span className="text-yellow-400 font-medium">€{bet.tokensStaked.toFixed(1)}</span>
             <span className="text-gray-600 text-xs ml-1">
               ≈ {formatEur(tokensToEur(bet.tokensStaked))}
             </span>
