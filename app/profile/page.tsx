@@ -87,7 +87,7 @@ export default async function ProfilePage({
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-5">
       {searchParams.purchase === "success" && (
         <div className="p-4 bg-green-950/50 border border-green-800 rounded-xl text-green-400 text-sm font-medium">
-          Payment successful! Your tokens have been added to your balance.
+          Payment successful! Your bananas have been added to your balance.
         </div>
       )}
 
@@ -107,7 +107,7 @@ export default async function ProfilePage({
             <div className="text-3xl font-black text-yellow-400">
               {user.tokenBalance.toFixed(1)}
             </div>
-            <div className="text-sm text-gray-400">tokens</div>
+            <div className="text-sm text-gray-400">bananas 🍌</div>
           </div>
         </div>
 
@@ -119,7 +119,7 @@ export default async function ProfilePage({
               <span className={remainingToday === 0 ? "text-red-400 font-medium" : "text-gray-300"}>
                 {spentToday.toFixed(1)}
               </span>
-              <span className="text-gray-600"> / {DAILY_SPEND_LIMIT} tokens used today</span>
+              <span className="text-gray-600"> / {DAILY_SPEND_LIMIT} bananas used today</span>
             </span>
           </div>
           <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
@@ -206,14 +206,14 @@ export default async function ProfilePage({
                     </td>
                     <td className="py-3 text-white">{bet.outcome.label}</td>
                     <td className="py-3 text-right text-gray-300">
-                      €{bet.tokensStaked.toFixed(1)}
+                      {bet.tokensStaked.toFixed(1)} 🍌
                     </td>
                     <td className="py-3 text-right text-yellow-400">
                       {formatOdds(bet.lockedOdds)}
                     </td>
                     <td className="py-3 text-right">
                       {bet.payout != null ? (
-                        <span className="text-green-400">€{bet.payout.toFixed(1)}</span>
+                        <span className="text-green-400">{bet.payout.toFixed(1)} 🍌</span>
                       ) : (
                         <span className="text-gray-600">—</span>
                       )}
@@ -253,7 +253,7 @@ export default async function ProfilePage({
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                   <span className={`font-mono text-sm font-bold ${tx.amount >= 0 ? "text-green-400" : "text-red-400"}`}>
-                    {tx.amount >= 0 ? "+" : ""}€{Math.abs(tx.amount).toFixed(1)}
+                    {tx.amount >= 0 ? "+" : ""}{Math.abs(tx.amount).toFixed(1)} 🍌
                   </span>
                   <span className="text-xs text-gray-600">
                     {formatDistanceToNow(new Date(tx.createdAt), { addSuffix: true })}

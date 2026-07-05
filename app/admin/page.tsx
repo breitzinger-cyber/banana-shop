@@ -60,8 +60,8 @@ export default async function AdminDashboard() {
         <StatCard label="Open markets" value={openEvents.length} />
         <StatCard label="Total users" value={users.length} />
         <StatCard
-          label="Tokens in circulation"
-          value={`€${totalTokensInCirculation.toFixed(0)}`}
+          label="Bananas in circulation"
+          value={`${totalTokensInCirculation.toFixed(0)} 🍌`}
           color="text-yellow-400"
         />
         <StatCard
@@ -155,7 +155,7 @@ export default async function AdminDashboard() {
                       {event.title}
                     </div>
                     <div className="text-xs text-gray-500 mt-0.5">
-                      {event.category} · {event._count.bets} bets · €{pool.toFixed(0)} pooled
+                      {event.category} · {event._count.bets} bets · {pool.toFixed(0)} 🍌 pooled
                     </div>
                   </div>
                   <div className="text-right shrink-0 ml-3">
@@ -188,7 +188,7 @@ export default async function AdminDashboard() {
                 <div className="text-sm min-w-0">
                   <span className="text-gray-300 font-medium">{bet.user.name}</span>
                   <span className="text-gray-500"> · </span>
-                  <span className="text-yellow-400">€{bet.tokensStaked.toFixed(1)}</span>
+                  <span className="text-yellow-400">{bet.tokensStaked.toFixed(1)} 🍌</span>
                   <span className="text-gray-500"> on </span>
                   <span className="text-white">{bet.outcome.label}</span>
                   <span className="text-gray-600 text-xs ml-2 truncate max-w-[160px] inline-block align-bottom">

@@ -95,10 +95,10 @@ export default function Navbar() {
                 <Link
                   href="/profile"
                   className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded-full transition-colors"
-                  title={remainingToday !== null ? `${remainingToday.toFixed(1)} tokens remaining today` : undefined}
+                  title={remainingToday !== null ? `${remainingToday.toFixed(1)} bananas remaining today` : undefined}
                 >
                   <span className="text-yellow-400 text-sm font-bold">{displayBalance}</span>
-                  <span className="text-gray-400 text-xs">T</span>
+                  <span className="text-sm">🍌</span>
                   {remainingToday !== null && remainingToday < 2 && remainingToday > 0 && (
                     <span className="text-xs text-orange-400 font-medium">{remainingToday.toFixed(1)} left</span>
                   )}
@@ -155,7 +155,7 @@ export default function Navbar() {
                     onClick={() => setMenuOpen(false)}
                   >
                     <span className="text-yellow-400 font-bold">{displayBalance}</span>
-                    <span className="text-gray-500">tokens</span>
+                    <span className="text-gray-500">bananas 🍌</span>
                   </Link>
                   <button
                     onClick={() => signOut({ callbackUrl: "/login" })}

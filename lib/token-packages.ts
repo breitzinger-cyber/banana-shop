@@ -10,24 +10,24 @@ export interface TokenPackage {
 export const TOKEN_PACKAGES: TokenPackage[] = [
   {
     id: "five",
-    name: "5 Tokens",
+    name: "5 Bananas",
     tokens: 5,
     priceEurCents: 500,
-    description: "5 Tokens · €5",
+    description: "5 Bananas · €5",
   },
   {
     id: "ten",
-    name: "10 Tokens",
+    name: "10 Bananas",
     tokens: 10,
     priceEurCents: 1000,
-    description: "10 Tokens · €10",
+    description: "10 Bananas · €10",
   },
   {
     id: "twentyfive",
-    name: "25 Tokens",
+    name: "25 Bananas",
     tokens: 25,
     priceEurCents: 2500,
-    description: "25 Tokens · €25",
+    description: "25 Bananas · €25",
   },
 ];
 

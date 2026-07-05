@@ -177,7 +177,7 @@ export default function AdminEventPage() {
           </div>
           <div className="text-right shrink-0">
             <div className="text-2xl font-bold text-yellow-400">{totalPool.toFixed(1)}</div>
-            <div className="text-xs text-gray-500">tokens pooled</div>
+            <div className="text-xs text-gray-500">🍌 pooled</div>
             <div className="text-lg font-bold text-white mt-1">{event.bets.length}</div>
             <div className="text-xs text-gray-500">total bets</div>
           </div>

@@ -95,7 +95,7 @@ export default async function EventPage({ params }: PageProps) {
             <div className="mt-5 flex gap-6 text-sm">
               <div>
                 <div className="text-2xl font-bold text-yellow-400">{totalPool.toFixed(1)}</div>
-                <div className="text-gray-500 text-xs mt-0.5">tokens pooled</div>
+                <div className="text-gray-500 text-xs mt-0.5">🍌 pooled</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-white">{event.bets.length}</div>
@@ -147,7 +147,7 @@ export default async function EventPage({ params }: PageProps) {
                       </span>
                       <span className="text-gray-500"> bet </span>
                       <span className="text-yellow-400 font-medium">
-                        {bet.tokensStaked.toFixed(1)} tokens
+                        {bet.tokensStaked.toFixed(1)} 🍌
                       </span>
                       <span className="text-gray-500"> on </span>
                       <span className="text-white">{bet.outcome.label}</span>

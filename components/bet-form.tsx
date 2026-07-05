@@ -95,9 +95,9 @@ export default function BetForm({ eventId, outcomes, eventStatus }: BetFormProps
   async function handleBet(e: React.FormEvent) {
     e.preventDefault();
     if (!selectedOutcomeId) { toast.error("Pick an outcome first."); return; }
-    if (tokensNum <= 0) { toast.error("Enter a valid token amount."); return; }
-    if (overBalance) { toast.error("Not enough tokens."); return; }
-    if (overDailyLimit) { toast.error(`Daily limit: ${remaining.toFixed(1)} tokens left today.`); return; }
+    if (tokensNum <= 0) { toast.error("Enter a valid banana amount."); return; }
+    if (overBalance) { toast.error("Not enough bananas."); return; }
+    if (overDailyLimit) { toast.error(`Daily limit: ${remaining.toFixed(1)} bananas left today.`); return; }
 
     setLoading(true);
     try {
@@ -146,7 +146,7 @@ export default function BetForm({ eventId, outcomes, eventStatus }: BetFormProps
       {remaining === 0 ? (
         <div className="p-4 bg-red-950/30 border border-red-800/50 rounded-xl text-center">
           <p className="text-red-400 text-sm font-medium">Daily spend limit reached</p>
-          <p className="text-gray-500 text-xs mt-1">Resets at midnight. Buy more tokens on your profile.</p>
+          <p className="text-gray-500 text-xs mt-1">Resets at midnight. Buy more bananas in the shop.</p>
         </div>
       ) : (
         <>
@@ -185,9 +185,9 @@ export default function BetForm({ eventId, outcomes, eventStatus }: BetFormProps
           {/* Amount */}
           <div>
             <label className="text-sm font-medium text-gray-300 mb-1.5 flex justify-between items-end">
-              <span>Tokens to stake</span>
+              <span>Bananas to stake</span>
               <span className="text-gray-500 text-xs">
-                Balance: {balance.toFixed(1)} T · Max today: {remaining.toFixed(1)} T
+                Balance: {balance.toFixed(1)} 🍌 · Max today: {remaining.toFixed(1)} 🍌
               </span>
             </label>
             <div className="flex gap-2">
@@ -215,7 +215,7 @@ export default function BetForm({ eventId, outcomes, eventStatus }: BetFormProps
             </div>
             {overDailyLimit && (
               <p className="text-red-400 text-xs mt-1">
-                Only {remaining.toFixed(1)} tokens left for today.
+                Only {remaining.toFixed(1)} bananas left for today.
               </p>
             )}
             {!hasError && tokensNum > 0 && (
@@ -228,12 +228,12 @@ export default function BetForm({ eventId, outcomes, eventStatus }: BetFormProps
             <div className="bg-gray-800/50 rounded-xl p-4 space-y-1.5">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Stake</span>
-                <span className="text-white">{tokensNum.toFixed(2)} T · {formatEur(tokensToEur(tokensNum))}</span>
+                <span className="text-white">{tokensNum.toFixed(2)} 🍌 · {formatEur(tokensToEur(tokensNum))}</span>
               </div>
               {rake > 0 && (
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Platform fee ({(RAKE_PERCENT * 100).toFixed(0)}%)</span>
-                  <span className="text-gray-500">−{rake.toFixed(2)} T</span>
+                  <span className="text-gray-500">−{rake.toFixed(2)} 🍌</span>
                 </div>
               )}
               <div className="flex justify-between text-sm">
@@ -243,7 +243,7 @@ export default function BetForm({ eventId, outcomes, eventStatus }: BetFormProps
               <div className="flex justify-between text-sm border-t border-gray-700 pt-1.5 mt-1.5">
                 <span className="text-gray-300 font-medium">Potential payout</span>
                 <div className="text-right">
-                  <span className="text-green-400 font-bold">{projectedPayout.toFixed(2)} T</span>
+                  <span className="text-green-400 font-bold">{projectedPayout.toFixed(2)} 🍌</span>
                   <span className="text-gray-500 text-xs ml-1">· {formatEur(tokensToEur(projectedPayout))}</span>
                 </div>
               </div>

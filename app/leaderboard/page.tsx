@@ -81,7 +81,7 @@ export default async function LeaderboardPage() {
                   ))}
                 </div>
                 <div className="text-xs text-gray-500">
-                  {user.tokenBalance.toFixed(1)} tokens
+                  {user.tokenBalance.toFixed(1)} 🍌
                 </div>
               </div>
 
@@ -123,7 +123,7 @@ export default async function LeaderboardPage() {
       </div>
 
       <p className="text-xs text-gray-600 text-center mt-4">
-        Net profit = total payouts earned − total tokens staked (excluding refunds)
+        Net profit = total payouts earned − total bananas staked (excluding refunds)
       </p>
     </div>
   );

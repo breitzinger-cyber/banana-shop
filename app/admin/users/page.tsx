@@ -51,7 +51,7 @@ export default function AdminUsersPage() {
 
     const data = await res.json();
     if (res.ok) {
-      toast.success(`Granted ${amount} tokens to ${data.userName}.`);
+      toast.success(`Granted ${amount} bananas to ${data.userName}.`);
       setGrantTarget(null);
       setGrantAmount("");
       setGrantNote("");
@@ -111,7 +111,7 @@ export default function AdminUsersPage() {
               </div>
               <div className="col-span-2 text-right">
                 <span className="text-yellow-400 font-bold">{user.tokenBalance.toFixed(1)}</span>
-                <span className="text-gray-500 text-xs ml-1">tokens</span>
+                <span className="text-gray-500 text-xs ml-1">🍌</span>
               </div>
               <div className="col-span-1 text-right text-sm text-gray-400">
                 {user._count.bets}
@@ -123,7 +123,7 @@ export default function AdminUsersPage() {
                   }
                   className="text-xs px-2.5 py-1.5 bg-yellow-900/50 hover:bg-yellow-800/50 text-yellow-400 rounded-lg transition-colors border border-yellow-800/50"
                 >
-                  Grant tokens
+                  Grant bananas
                 </button>
               </div>
             </div>

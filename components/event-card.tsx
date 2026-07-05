@@ -64,7 +64,7 @@ export default function EventCard({ event }: EventCardProps) {
           </div>
           <div className="text-right shrink-0">
             <div className="text-sm font-bold text-yellow-400">
-              €{totalPool.toFixed(0)}
+              {totalPool.toFixed(0)} 🍌
             </div>
             <div className="text-xs text-gray-500">{totalBets} bets</div>
           </div>

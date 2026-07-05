@@ -21,5 +21,5 @@ export function formatEur(eur: number): string {
 
 export function formatTokensWithEur(tokens: number): string {
   const display = tokens % 1 === 0 ? tokens : tokens.toFixed(2);
-  return `${display} token${tokens !== 1 ? "s" : ""} (${formatEur(tokensToEur(tokens))})`;
+  return `${display} banana${tokens !== 1 ? "s" : ""} (${formatEur(tokensToEur(tokens))})`;
 }
